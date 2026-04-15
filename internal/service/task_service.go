@@ -60,12 +60,16 @@ func (s *TaskService) DeleteTask(ctx context.Context, id string) error {
 	return nil
 }
 
-func (s *TaskService) UpdateTask(ctx context.Context, task *domain.Task) error {
+func (s *TaskService) UpdateTask(ctx context.Context, task *domain.Task, id string) error {
+	if id == "" {
+		log.Printf("error: %s", domain.ErrBadRequest.Error())
+		return domain.ErrBadRequest
+	}
 	if task.Title == "" {
 		log.Printf("error: %s", domain.ErrBadRequest.Error())
 		return domain.ErrBadRequest
 	}
-	if err := s.repo.Update(ctx, task); err != nil {
+	if err := s.repo.Update(ctx, task, id); err != nil {
 		log.Printf("error: %s", err)
 		return err
 	}

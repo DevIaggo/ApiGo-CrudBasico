@@ -42,7 +42,8 @@ func (h *Handler) CreateTask(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	w.WriteHeader(http.StatusCreated)
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(map[string]interface{}{"message": "Task created successfully"})
 }
 
 func (h *Handler) GetAllTasks(w http.ResponseWriter, r *http.Request) {
@@ -77,10 +78,12 @@ func (h *Handler) DeleteTaskById(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	w.WriteHeader(http.StatusNoContent)
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(map[string]interface{}{"message": "Task deleted successfully"})
 }
 
 func (h *Handler) UpdateTask(w http.ResponseWriter, r *http.Request) {
+	id := r.PathValue("id")
 	task := &domain.Task{}
 
 	if err := json.NewDecoder(r.Body).Decode(task); err != nil {
@@ -88,10 +91,11 @@ func (h *Handler) UpdateTask(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if err := h.svc.UpdateTask(r.Context(), task); err != nil {
+	if err := h.svc.UpdateTask(r.Context(), task, id); err != nil {
 		writeError(w, err)
 		return
 	}
 
-	w.WriteHeader(http.StatusOK)
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(map[string]interface{}{"message": "Task updated successfully"})
 }

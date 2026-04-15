@@ -87,9 +87,9 @@ func (r *Repository) Delete(ctx context.Context, id string) error {
 	return nil
 }
 
-func (r *Repository) Update(ctx context.Context, task *domain.Task) error {
+func (r *Repository) Update(ctx context.Context, task *domain.Task, id string) error {
 	query := `UPDATE tasks SET title = $1, done = $2 WHERE id = $3`
-	result, err := r.db.Exec(ctx, query, task.Title, task.Done, task.ID)
+	result, err := r.db.Exec(ctx, query, task.Title, task.Done, id)
 	if err != nil {
 		return fmt.Errorf("Update task: %w", err)
 	}

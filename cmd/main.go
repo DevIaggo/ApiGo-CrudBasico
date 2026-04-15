@@ -34,7 +34,7 @@ func main() {
 	handler := handler.NewHandler(svc)
 
 	r := api.SetupRoutes(handler)
-
+	log.Println("Server is running on port 8080")
 	if err := http.ListenAndServe(":8080", r); err != nil {
 		log.Fatal(err)
 	}
