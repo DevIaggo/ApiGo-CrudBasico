@@ -75,7 +75,7 @@ O projeto segue uma arquitetura em camadas:
 Crie um arquivo `.env` na raiz do projeto:
 
 ```env
-DATABASE_URL=postgres://postgres:postgres@localhost:5433/k2l
+DATABASE_URL=postgres://postgres:postgres@localhost:5433/SeuBanco
 ```
 
 ### Criando a tabela
